@@ -1,18 +1,34 @@
-const element = {
-    type: "h1",
-    props: {
-        title: "foo",
-        children: "Hello"
+function createElement(type, props, ...children) {
+    return {
+        type,
+        props: {
+            ...props,
+            children: children.map(child =>
+                typeof child === "object"
+                    ? child
+                    : createTextElement(child)
+            ),
+        }
     }
 }
 
-const container = document.getElementById('root');
+function createTextElement(text) {
+    return {
+        type: "TEXT_ELEMENT",
+        props: {
+            nodeValue: text,
+            children: []
+        },
+    }
+}
 
-const node = document.createElement(element.type);
-node["title"] = element.props.title;
+const Didact = {
+    createElement,
+}
 
-const text = document.createTextNode("");
-text["nodeValue"] = element.props.children;
-
-node.appendChild(text);
-container.appendChild(node);
+const element = Didact.createElement(
+    "div",
+    { id: "foo" },
+    Didact.createElement("a", null, "bar"),
+    Didact.createElement("b")
+)
