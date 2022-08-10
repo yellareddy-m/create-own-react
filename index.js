@@ -42,6 +42,7 @@ function render(element, container) {
 
 const Didact = {
     createElement,
+    render
 }
 
 /**@jsx Didact.createElement */
@@ -51,3 +52,6 @@ const element = (
         <b />
     </div>
 )
+
+const container = document.getElementById("root");
+Didact.render(element, container);
